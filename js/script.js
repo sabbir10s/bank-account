@@ -1,8 +1,8 @@
 function getInputValue(inputID){
-   const input = document.getElementById(inputID);
-   const amountText = input.value;
+   const inputField = document.getElementById(inputID);
+   const amountText = inputField.value;
    const amount = parseFloat(amountText);
-   input.value = ''
+   inputField.value = ''
    return amount;
 }
 
@@ -51,6 +51,4 @@ document.getElementById('withdraw-button').addEventListener('click', function(){
    
    balanceTotal.innerText = updateBalance;
 
-   //clear withdraw input field 
-   withdrawInput.value =''
 })
