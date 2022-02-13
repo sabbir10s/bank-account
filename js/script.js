@@ -15,23 +15,38 @@ function updateTotalField(totalFieldId, depositInput){
    return depositTotal;
 }
 
-function updateBalance(balanceFieldId, depositInput){
-   const balanceTotal = document.getElementById(balanceFieldId);
+function getCurrentBalance(){
+   const balanceTotal = document.getElementById('balance-total');
    const balanceAmountText = balanceTotal.innerText;
    const balanceAmount = parseFloat(balanceAmountText)
-   balanceTotal.innerText = depositInput + balanceAmount ;
+   return balanceAmount;
+}
 
+function updateBalance(depositInput, isAdd){
+   const balanceTotal = document.getElementById('balance-total');
+   const balanceAmount = getCurrentBalance();
+   if(isAdd == true){
+      balanceTotal.innerText = depositInput + balanceAmount ;
+   }
+   else{
+      balanceTotal.innerText =balanceAmount -  depositInput ;
+   }
 }
 document.getElementById('deposit-button').addEventListener('click', function(){
    
    //get deposit amount
    const depositInput = getInputValue('deposit-input');
 
-   //update deposit amount
+   if(depositInput>0){
+       //update deposit amount
    updateTotalField('deposit-total', depositInput);
 
    // update account balance
-   updateBalance('balance-total', depositInput);
+   updateBalance( depositInput, true);
+   }
+   else{
+      alert("The value is not legal");
+   }
 
 })
 
@@ -40,17 +55,14 @@ document.getElementById('withdraw-button').addEventListener('click', function(){
    
    //withdraw 
    const withdrawAmount = getInputValue('withdraw-input');
-
-   //update withdraw
+   const currentBalance = getCurrentBalance();
+   if(withdrawAmount>0 && withdrawAmount< currentBalance){
+      //withdraw amount 
    updateTotalField('withdraw-total', withdrawAmount);
-
-   //update balance
-   const balanceTotal = document.getElementById('balance-total');
-   const balanceAmount = balanceTotal.innerText;
-
-   //balance update 
-   const updateBalance = parseFloat(balanceAmount) - parseFloat(withdrawAmount);
-   
-   balanceTotal.innerText = updateBalance;
+   updateBalance(withdrawAmount, false)
+   }
+   else{
+      alert("The value is not legal");
+   }
 
 })
